@@ -19,21 +19,23 @@ handler(Request request, FlameDetails details): Promise<Response>
 ```language=javascript
 class FlameDetails {
 	FlameIp ip: {
-		String addr,
-		Number port
+		addr: String,
+		port: Number
 	}
 }
 ```
 #### FlameWebSocket
 ```language=javascript
 class FlameWebSocket {
-	WebSocketServer socket,
-	Response response
+	socket: WebSocketServer,
+	response: Response
 }
 ```
 #### globalThis.Flame
 ```language=javascript
 Flame {
-	FlameWebSocket upgradeWebSocket(Request request)
+	platformVariant: String,
+	getEnv(String key): String,
+	upgradeWebSocket(Request request): FlameWebSocket
 }
 ```
