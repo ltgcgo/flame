@@ -15,7 +15,7 @@ if (Flame.getEnv("LISTEN_PORT")) {
 	serveOptions.port = parseInt(Flame.getEnv("LISTEN_PORT", "3000"));
 };
 
-Deno.serve(async function (request, connInfo) {
+serve(async function (request, connInfo) {
 	return await wrappedResponse(request, {
 		remote: {
 			addr: connInfo.remoteAddr.hostname,

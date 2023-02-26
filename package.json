@@ -1,0 +1,46 @@
+{
+	"name": "flame",
+	"type": "module",
+	"version": "0.1",
+	"description": "FaaS template that actually makes sense.",
+	"keywords": [
+		"bun js",
+		"denoland",
+		"serverless functions"
+	],
+	"homepage": "https://github.com/ltgcgo/flame",
+	"bugs": {
+		"url": "https://github.com/ltgcgo/flame/issues"
+	},
+	"license": "AGPL-3.0-only",
+	"author": "Lumière Élevé (https://github.com/PoneyClairDeLune)",
+	"funding": [
+		{
+			"type": "individual",
+			"url": "monero:82rPQDB7JVgYfF4TLTz4JJTM9ibYXw9G7BSQ2CE7ixqtYnYjNYPagJoUUhmmXaGfBvjRZ3TWdabP7FngbWXkdSfv23VEo1M"
+		}
+	],
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"os": [
+		"linux",
+		"darwin",
+		"android",
+		"windows"
+	],
+	"cpu": [
+		"x64",
+		"arm64"
+	],
+	"files": [
+		"dist/*",
+		"shx",
+		"sh/nodeTest.sh",
+		"sh/denoTest.sh",
+		"sh/bunTest.sh"
+	],
+	"dependencies": {
+		"ws": "^8.12.0"
+	}
+}

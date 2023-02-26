@@ -4,5 +4,5 @@ package-lock.json
 /dist/*.map
 /proxy/*
 /lib/*
-/node_modules/*
+/node_modules
 /src/vendor/*
