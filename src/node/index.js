@@ -46,7 +46,7 @@ let server = http.createServer(async function (requester, responder) {
 	let response = await wrappedResponse(request, {
 		remote: {
 			addr: clientIp,
-			port: 0
+			port: requester.socket.remotePort
 		}
 	});
 	responder.statusCode = response?.status || 200;
