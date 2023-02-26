@@ -23,11 +23,12 @@ let wrappedResponse = async function (request, details) {
 		response = new Response(`Uncaught ${err.stack}`, {
 			status: 500
 		});
+		applyDefaultHeaders(response.headers, {
+			"Content-Type": "text/plain",
+			"Server": "Lightingale Flame"
+		});
+		console.error(`Uncaught ${err.stack}`);
 	};
-	applyDefaultHeaders(response.headers, {
-		"Content-Type": "text/plain",
-		"Server": "Lightingale Flame"
-	});
 	return response;
 };
 

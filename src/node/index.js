@@ -6,10 +6,12 @@
 
 import {Flame} from "./flame.js";
 import http from "node:http";
+import {WebSocket} from "ws";
 import {wrappedResponse} from "./responder/index.js";
 
 globalThis.self = globalThis.self || globalThis;
 self.Flame = Flame;
+self.WebSocket = WebSocket;
 
 let listenPort = parseInt(Flame.getEnv("LISTEN_PORT", "3000"));
 
@@ -43,6 +45,7 @@ let server = http.createServer(async function (requester, responder) {
 		reqOpt.duplex = "half";
 	};
 	let request = new Request(`${requester.headers["x-forwarded-proto"] || "http"}://${requester.headers.host}${requester.url}`, reqOpt);
+	request.msgIn = requester;
 	let response = await wrappedResponse(request, {
 		remote: {
 			addr: clientIp,
@@ -69,6 +72,28 @@ let server = http.createServer(async function (requester, responder) {
 			};
 		});
 	};
+});
+server.on("upgrade", async (requester, socket, head) => {
+	let clientIp = requester.headers["x-real-ip"] || requester.headers["x-forwarded-for"] || requester.socket.remoteAddress;
+	if (clientIp.indexOf("::ffff:") == 0) {
+		clientIp = clientIp.slice(clientIp.lastIndexOf("::ffff:") + 7);
+	};
+	let reqOpt = {
+		"method": requester.method,
+		"headers": requester.headers
+	};
+	let request = new Request(`${requester.headers["x-forwarded-proto"] || "http"}://${requester.headers.host}${requester.url}`, reqOpt);
+	request.raw = {
+		requester,
+		socket,
+		head
+	};
+	await wrappedResponse(request, {
+		remote: {
+			addr: clientIp,
+			port: requester.socket.remotePort
+		}
+	});
 });
 server.listen(listenPort, "127.0.0.1", () => {
 	console.info(`Listening on http://localhost:${listenPort}/`);
